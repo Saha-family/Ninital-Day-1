@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parasnath Trek | Image Gallery</title>
+    
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&family=Rajdhani:wght@300;600&display=swap');
+
+      :root {
+        --primary-bg: #f8f9fa;
+        --text-color: #2d3436;
+        --accent-color: #0984e3;
+        --border-radius: 12px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Gabarito', sans-serif;
+      }
+
+      body {
+        background-color: var(--primary-bg);
+        color: var(--text-color);
+        overflow-x: hidden;
+      }
+
+      /* Hero/Header Section with Slider - Updated to Full Screen */
+      .hero-section {
+        position: relative;
+        height: 100vh; /* Full viewport height */
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        text-align: center;
+        color: white;
+      }
+
+      .slider-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        background-color: #000;
+      }
+
+      .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+      }
+
+      .slide.active {
+        opacity: 1;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+        z-index: -1;
+      }
+
+      .heading {
+        font-size: clamp(1.8rem, 8vw, 4.5rem);
+        font-weight: 700;
+        padding: 20px 40px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--border-radius);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        z-index: 1;
+      }
+
+      .heading span {
+        font-weight: 300;
+        font-family: 'Rajdhani', sans-serif;
+        color: #fab1a0;
+        display: block;
+        font-size: 0.45em;
+        margin-top: 10px;
+        letter-spacing: 2px;
+      }
+
+      /* Scroll Indicator */
+      .scroll-down {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 0.9rem;
+        opacity: 0.8;
+        animation: bounce 2s infinite;
+        text-decoration: none;
+        font-family: 'Rajdhani', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+        40% {transform: translateX(-50%) translateY(-10px);}
+        60% {transform: translateX(-50%) translateY(-5px);}
+      }
+
+      /* Layout Container */
+      .content-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+      }
+
+      /* Video Section */
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      }
+
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Gallery Grid */
+      .gallery-title {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 4px solid var(--accent-color);
+        display: inline-block;
+      }
+
+      .img-box {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        width: 100%;
+      }
+
+      .column {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 20px;
+      }
+
+      .column img {
+        width: 100%;
+        border-radius: var(--border-radius);
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), filter 0.3s ease;
+        cursor: pointer;
+        display: block;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      }
+
+      .column img:hover {
+        transform: translateY(-5px);
+        filter: brightness(1.05);
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .img-box {
+          flex-direction: column;
+        }
+        /* Hero stays 100vh here as requested */
+      }
+
+      @media (max-width: 480px) {
+        .heading {
+          padding: 20px;
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    
+    <header class="hero-section">
+      <div class="slider-container" id="bgSlider">
+        <!-- Slides will be injected by JavaScript -->
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="heading">
+        Nainital
+        <span>Day 1(Journey)</span>
+        <span>Uttrakhand | 19/12/2025-21/12/2025</span>
+      </div>
+      <a href="#content" class="scroll-down">Explore Gallery ↓</a>
+    </header>
+
+    <div class="content-wrapper" id="content">
+      <div class="video-grid">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/vD3WtuCH43g?si=wYhQcLAf2jBTdUbM" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/XcjWVVohzBE?si=cC1ZskfSRiZwA_ym" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <h2 class="gallery-title">Image Gallery</h2>
+      
+      <div class="img-box">
+        <div class="column" id="col1"></div>
+        <div class="column" id="col2"></div>
+        <div class="column" id="col3"></div>
+      </div>
+    </div>
+
+    <script>
+      const totalImages = 53;
+      const col1 = document.getElementById("col1");
+      const col2 = document.getElementById("col2");
+      const col3 = document.getElementById("col3");
+      const slider = document.getElementById("bgSlider");
+
+      // 1. Initialize Gallery Images
+      for (let i = 1; i <= totalImages; i++) {
+        const imgSrc = `img (${i}).jpg`;
+        const a = document.createElement("a");
+        a.href = imgSrc;
+        
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        img.alt = `Trek image ${i}`;
+        img.loading = "lazy";
+        
+        a.appendChild(img);
+
+        if (i % 3 === 1) col1.appendChild(a);
+        else if (i % 3 === 2) col2.appendChild(a);
+        else col3.appendChild(a);
+      }
+
+      // 2. Initialize Background Slider
+      const sliderCount = 53; // Slightly more variety for full screen
+      const slides = [];
+
+      function setupSlider() {
+        for (let i = 0; i < sliderCount; i++) {
+          const randomIdx = Math.floor(Math.random() * totalImages) + 1;
+          const slide = document.createElement('div');
+          slide.className = 'slide';
+          slide.style.backgroundImage = `url('img (${randomIdx}).jpg')`;
+          slider.appendChild(slide);
+          slides.push(slide);
+        }
+
+        if (slides.length > 0) {
+          slides[0].classList.add('active');
+        }
+
+        let currentSlide = 0;
+        setInterval(() => {
+          slides[currentSlide].classList.remove('active');
+          currentSlide = (currentSlide + 1) % slides.length;
+          slides[currentSlide].classList.add('active');
+        }, 5000);
+      }
+
+      setupSlider();
+    </script>
+  </body>
+</html>
